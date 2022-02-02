@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: true
+  tasks: 
+    - name: Install required tools
+      apt: 
+        name: unzip
+        state: present
+
+- name: include apache task list
+  include: ./apache.yml
+- name: include php task list
+  include: ./php.yml
+- name: include mysql task list
+  include: ./mysql.yml
+- name: include wordpress task list
+  include: ./wordpress.yml

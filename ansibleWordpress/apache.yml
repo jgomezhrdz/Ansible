@@ -1,0 +1,50 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install apache2
+      apt:
+        state: present
+        update_cache: yes
+        name:
+          - apache2
+
+    - name: Delete apache2 default configuration
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+       - /etc/apache2/sites-enabled/000-default.conf
+       - /etc/apache2/sites-available/000-default.conf
+
+    - name: Copy apaceh2 virtualhost template
+      copy: 
+        src: ./templates/apache/virtual-hosts.conf 
+        dest: /etc/apache2/sites-available/virtual-hosts.conf
+        owner: root
+        group: root
+        mode: 0777
+      notify: restart apache2
+
+    - name: Copy port configuration to apache2
+      copy: 
+        src: ./files/apache/ports.conf
+        dest: /etc/apache2/ports.conf
+        owner: root
+        group: root
+        mode: 0777
+      notify: restart apache2
+
+    - name: Create link
+      file: 
+        remote_src: True
+        src: /etc/apache2/sites-available/virtual-hosts.conf
+        dest: /etc/apache2/sites-enabled/virtual-hosts.conf
+        state: link
+      notify: restart apache2
+
+  handlers:
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted

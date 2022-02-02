@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install MySQL
+      apt:
+        state: present
+        update_cache: yes
+        name:
+          - mysql-server
+          - python-mysqldb
+      #Generate new root password
+    - name: Create WordPress MySQL database
+      mysql_db: name=wordpress state=present
+    - name: Create WordPress MySQL user
+      mysql_user: name=wordpress host=localhost password=bananas priv=wordpress.*:ALL

@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Copy wordpress.zip into tmp
+      copy: 
+        src: ./files/wordpress.zip 
+        dest: /tmp/wordpress.zip
+
+    - name: Unzip WordPress
+      unarchive: 
+        src: /tmp/wordpress.zip 
+        dest: /tmp/
+        copy: no 
+        creates: /tmp/wordpress/wp‐settings.php
+
+    - name: Copy WordPress files
+      copy: 
+        remote_src: True
+        src: /tmp/wordpress/
+        dest: /var/www/wordpress/

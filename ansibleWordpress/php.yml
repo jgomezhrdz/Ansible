@@ -1,0 +1,14 @@
+# Instalacion de php
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install php
+      apt:
+        state: present
+        update_cache: yes
+        name:
+          - php
+          - php-fpm
+          - php-mysql
+          - php-xml
