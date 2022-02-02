@@ -23,6 +23,6 @@
         dest: "{{ wp_root }}"
       
     - name: Copy WordPress files
-      copy: 
-        src: ./templates/wordpress/wp-config.php
+      template: 
+        src: ./templates/wordpress/wp-config.php.j2
         dest: "{{ wp_root }}/wp-config.php"

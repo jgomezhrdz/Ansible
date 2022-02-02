@@ -20,8 +20,8 @@
        - /etc/apache2/sites-available/000-default.conf
 
     - name: Copy apaceh2 virtualhost template
-      copy: 
-        src: ./templates/apache/virtual-hosts.conf 
+      template: 
+        src: ./templates/apache/virtual-hosts.conf.j2
         dest: /etc/apache2/sites-available/virtual-hosts.conf
         owner: root
         group: root
