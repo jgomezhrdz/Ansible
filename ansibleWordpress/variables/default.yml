@@ -1,0 +1,9 @@
+---
+#MySQL Settings
+wp_db_password: "anothersecurepassword"
+wp_db_name: "wordpress"
+wp_db_user: "username"
+
+#HTTP Settings
+wp_root: "/srv/www/wordpress/"
+document_root: "/srv/www/"

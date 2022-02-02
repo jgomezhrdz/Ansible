@@ -1,6 +1,8 @@
 ---
 - hosts: all
   become: true
+  vars_files:
+    - ./variables/default.yml
   tasks:
     - name: Copy wordpress.zip into tmp
       copy: 
@@ -18,4 +20,9 @@
       copy: 
         remote_src: True
         src: /tmp/wordpress/
-        dest: /var/www/wordpress/
+        dest: "{{ wp_root }}"
+      
+    - name: Copy WordPress files
+      copy: 
+        src: ./templates/wordpress/wp-config.php
+        dest: "{{ wp_root }}/wp-config.php"
