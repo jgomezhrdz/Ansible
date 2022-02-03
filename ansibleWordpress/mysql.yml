@@ -25,5 +25,13 @@
         group: root
         mode: 0777
 
+    #Importacion del backup de la base de datos en caso de que no exista
+    - name: Does the database exist?
+      command: mysql -u username --password=anothersecurepassword -e "SELECT ID FROM {{ wp_db_name }}.wp_users LIMIT 1;"
+      register: db_exist
+      ignore_errors: true
+      changed_when: false
+
     - name: Import WordPress DB
       mysql_db: target=/tmp/wordpressBackup.sql state=import name="{{ wp_db_name }}"
+      when: db_exist.rc > 0
